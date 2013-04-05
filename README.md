@@ -1,4 +1,6 @@
 comicvine-php
 =============
 
-PHP library wrapper for the Comic Vine API
+PHP library for the Comicvine API
+
+Still in very rough shape. Alpha 0.1
