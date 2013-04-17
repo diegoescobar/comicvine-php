@@ -18,9 +18,8 @@ class comicvine_api {
 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
 		$content = trim(curl_exec($ch));
 		curl_close($ch);
-	
-		return $content;
-			
+
+		return $content;		
 	}
 	
 	function call($method, $params=array()) {
@@ -34,12 +33,10 @@ class comicvine_api {
 	
 	public function search( $query = '', $resource_type = '' ){
 		$params = array( 'query' => $query, 'resource' => $resource_type, 'api_key' => CV_API_KEY);
-
-		//$this->call('search', $params);
 		return $this->call('search', null, $params);
 	}
 
-	function api($id = null, $path = null, $fields = array()){
+	function cv_call($id = null, $path = null, $fields = array()){
 		if ($id != null && $path != null){
 			return $this->call($path, $id, $params);		
 		}else{
