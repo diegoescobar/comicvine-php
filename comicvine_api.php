@@ -1,14 +1,24 @@
 <?php
-DEFINE("CV_API_KEY", 'api_key_goes_here');
+//DEFINE("CV_API_KEY", 'api_key_goes_here');
+
+DEFINE("CV_API_KEY", '2ce95429822b43735ffb93daa15af4701fa9a6e4');
+
 class comicvine_api {
 
-	private function __signed_post($resource='search',$id = null, $params) {
+	private function __signed_post($resource='search',$id = null, $params = array()) {
+		if (!empty($params['id'])){
+			$id = $params['id'];
+			unset($params['id']);
+			unset($params['resource']);
+		}
+
 		$postbody = http_build_query($params);
-		if ($id != null){
+		if (!empty($id)){
 			$url = "http://www.comicvine.com/api/".$resource.'/'.$id.'/?';
 		}else{
 			$url = "http://www.comicvine.com/api/".$resource.'/?';
 		}
+
 		$query = $url . $postbody;
 
 		$ch = curl_init();
@@ -22,8 +32,14 @@ class comicvine_api {
 		return $content;		
 	}
 	
-	function call($method, $params=array()) {
-		return $this->__signed_post($method, $params);
+	private function call($method, $params = array() ) {
+		if (!empty($param['id'])){
+			$id = $param['id'];
+			unset( $param['id'] );
+		}else{
+			$id = NULL;
+		}
+		return $this->__signed_post($method, $id, $params);
 	}
 
 	private function filter(){
@@ -33,12 +49,13 @@ class comicvine_api {
 	
 	public function search( $query = '', $resource_type = '' ){
 		$params = array( 'query' => $query, 'resource' => $resource_type, 'api_key' => CV_API_KEY);
-		return $this->call('search', null, $params);
+		return $this->call('search', $params);
 	}
 
-	function cv_call($id = null, $path = null, $fields = array()){
+	public function cv_call($id = null, $path = null, $fields = array()){
 		if ($id != null && $path != null){
-			return $this->call($path, $id, $params);		
+			$params = array( 'id' => $id, 'resource' => $path, 'api_key' => CV_API_KEY);
+			return $this->call($path, $params);		
 		}else{
 			return false;
 		}
