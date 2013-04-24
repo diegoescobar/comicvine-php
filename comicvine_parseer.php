@@ -38,7 +38,7 @@ if (isset($_REQUEST['id']) && !empty($results)){
 
 if (!isset($_REQUEST['id']) && !empty($results)){
 
-	echo $results;
+	//echo $results;
 
 	$xml = new SimpleXMLElement($results);
 	$data = $xml->results;
