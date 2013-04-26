@@ -48,7 +48,7 @@ class comicvine_api {
 	}
 	
 	public function search( $query = '', $resource_type = '' ){
-		$params = array( 'query' => $query, 'resource' => $resource_type, 'api_key' => CV_API_KEY);
+		$params = array( 'query' => $query, 'resource' => $resource_type, 'resources' => $resource_type,  'api_key' => CV_API_KEY);
 		return $this->call('search', $params);
 	}
 

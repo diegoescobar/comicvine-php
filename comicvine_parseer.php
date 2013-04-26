@@ -43,9 +43,14 @@ if (!isset($_REQUEST['id']) && !empty($results)){
 	$xml = new SimpleXMLElement($results);
 	$data = $xml->results;
 
+	
 	switch ($_REQUEST['resource']) :
     	case 'volume':
 			foreach ( $data->volume AS $volume  ){
+				
+				if (!file_exists('/temp/'.$volume->id.'.jpg')){
+					copy($volume->image->thumb_url, 'temp/'.$volume->id.'.jpg');
+				}
 				echo $volume->id ."\r";
 				echo $volume->name . ' (' . $volume->start_year . ')'."\r";
 				echo '<img src="'.$volume->image->thumb_url . '"/>'."\r";
@@ -84,11 +89,19 @@ if (!isset($_REQUEST['id']) && !empty($results)){
 		case 'issue':
 			foreach ($data->issue AS $object ){
 				//var_dump( $object ); //echo $object->description;
+				
+				if (!file_exists('/temp/'.$object->id.'.jpg')){
+					copy($object->image->thumb_url, 'temp/'.$object->id.'.jpg');
+				}
+				
 				echo $object->id ."\r";
 				echo $data->volume->name;
 				echo $data->volume->issue_number;
 				echo $object->name . ' (' . $object->cover_date . ')'."\r";
 				echo '<img src="'.$object->image->thumb_url . '"/>'."\r";
+				
+				var_dump(	$object->person_credits );
+				
 			}
 		break;
 		case 'story_arc':
